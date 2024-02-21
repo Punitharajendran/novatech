@@ -1,0 +1,210 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.*;
+class Book {
+    String title;
+    String author;
+    int ISBN;
+    boolean isAvailable;
+    String edition;
+     int quantity;
+    public Book(String title, String author, int ISBN,String edition,int quantity) {
+        this.title = title;
+        this.author = author;
+        this.ISBN = ISBN;
+        this.quantity=quantity;
+        this.edition=edition;
+        isAvailable = true;
+    }
+}
+class Register {
+    String name;
+    int stud_id;
+
+    public Register(String name, int id) {
+        this.name = name;
+        this.stud_id = id;
+    }
+}
+
+public class LibraryManagementSystem
+{
+  private static List<Book> books = new ArrayList<>();
+  private static List<Register> registers = new ArrayList<>();
+  public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      while (true) {
+          System.out.println("\nWelcome to the Library Management System!");
+          System.out.println("1. Add new Book");
+          System.out.println("2. upgrade the quantity of the book");
+          System.out.println("3. search Book");
+          System.out.println("4. show all Books");
+          System.out.println("5. Register Students");
+          System.out.println("6. show All Registered students");
+          System.out.println("7. check ");
+          System.out.println("8. Exit");
+
+          System.out.print("Enter your choice: ");
+          int choice = scanner.nextInt();
+
+          switch (choice) {
+              case 1:
+                  addBook();
+                  break;
+              case 2:
+                  upgradebook();
+                  break;
+              case 3:
+                  searchBook();
+                  break;
+              case 4:
+                  showBook();
+                  break;
+              case 5:
+                register_students();
+                  break;
+              case 6:
+                resgisteredstudents();
+                  break;
+              case 7:
+                  System.out.println("Exiting Library Management System. Goodbye!");
+                  System.exit(0);
+              default:
+                  System.out.println("Invalid choice. Please enter a valid option.");
+          }
+      }
+  }
+   private static void addBook() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("Enter the title of the book: ");
+    String title = scanner.nextLine();
+    System.out.println("Enter the author of the book: ");
+    String author = scanner.nextLine();
+    System.out.println("Enter the edition of the book: (1st/2nd) ");
+    String edition = scanner.nextLine();
+    System.out.println("Enter the ISBN of the book: ");
+    int ISBN = scanner.nextInt();
+    System.out.println("Enter the quantity of the book: ");
+    int quantity = scanner.nextInt();
+    Book newBook = new Book(title, author, ISBN, edition, quantity);
+    books.add(newBook);
+
+    System.out.println("Book added successfully!");
+     
+  }
+   private static void upgradebook(){
+        Scanner scanner = new Scanner(System.in);
+         System.out.print("Enter the title of the book: ");
+        String title = scanner.nextLine();
+        for (Book book : books) {
+            if (book.title.toLowerCase().contains(title.toLowerCase())) {
+               System.out.println("Enter the updated edition of the book: 1st or 2nd ");
+               String n = scanner.nextLine(); // Consume newline character
+               System.out.println("Enter the updated quantity of the book: ");
+                int cn = scanner.nextInt();
+                book.edition=n;
+                book.quantity=cn;
+            }
+        }
+   }
+  private static void searchBook() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Search options:");
+        System.out.println("1. Search by Title");
+        System.out.println("2. Search by Author");
+        System.out.println("3. Search by ISBN");
+        System.out.println("Enter your choice: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                searchByTitle();
+                break;
+            case 2:
+                searchByAuthor();
+                break;
+            case 3:
+                searchByISBN();
+                break;
+            default:
+                System.out.println("Invalid choice. Please enter a valid option.");
+        }
+    }
+    private static void searchByTitle() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the title to search for: ");
+        String title = scanner.nextLine();
+
+        List<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (book.title.toLowerCase().contains(title.toLowerCase())) {
+                result.add(book);
+            }
+        }
+
+        displaySearchResults(result);
+    }
+    private static void  displaySearchResults(List<Book> result) {
+        int cn=0;
+    for (Book book : result) {
+             cn+=1;
+            System.out.println("Title:"+book.title.toUpperCase()+"      Author :"+book.author.toLowerCase()+"    ISBN :"+book.ISBN);
+        }  
+    }
+   private static void searchByISBN() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Enter the ISBN to search for: ");
+       String isbn = scanner.nextLine();
+    List<Book> result = new ArrayList<>();
+       for (Book book : books) {
+          if (String.valueOf(book.ISBN).equals(isbn)) {
+            result.add(book);
+           }
+       }
+
+      displaySearchResults(result);
+   }
+    private static void searchByAuthor() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the author to search for: ");
+        String author = scanner.nextLine();
+
+        List<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (book.author.toLowerCase().contains(author.toLowerCase())) {
+                result.add(book);
+            }
+        }
+
+        displaySearchResults(result);
+    }
+    private static void showBook() {
+    for (Book book : books) {
+           int cn=1;
+             System.out.println("sl.No:"+cn+"    Title:"+book.title.toUpperCase()+"    Author:"+book.author.toLowerCase()+"    ISBN:"+book.ISBN+"    quantity:"+book.quantity+"    editon:"+book.edition);
+           cn+=1;}
+         }
+    private static void register_students() {
+       Scanner scanner = new Scanner(System.in);
+         System.out.println("Enter the name of student: ");
+         String name = scanner.nextLine();
+         System.out.println("Enter the id of student: ");
+         int id = scanner.nextInt();
+          Register newRegister = new Register(name,id);
+            registers.add(newRegister);
+        System.out.println("Student registered successfully!");
+    }
+    private static void resgisteredstudents(){
+        int cn=0;
+         for (Register register : registers) {
+              System.out.println("sl.No: "+cn+"    Name: "+register.name.toUpperCase()+"      id: "+register.stud_id);
+              cn+=1;
+         }
+     }
+}
